@@ -90,15 +90,26 @@ public class ConsultaControl {
         return new ModelAndView("redirect:/consulta/listar");
     }
 
-    @GetMapping("/editar")
-    public ModelAndView editar(@RequestParam("id") Long id) {
+    @GetMapping("/editar/{id}")
+    public ModelAndView editar(@PathVariable("id") Long id) {
         Consulta consulta = consultaRepositorio.consultaFind(id);
         ModelAndView modelAndView = new ModelAndView("consulta/cadastro");
         modelAndView.addObject("consulta", consulta);
         return modelAndView;
     }
     @PostMapping("/update")
-    public ModelAndView editar(@ModelAttribute("consulta") Consulta consulta) {
+    public ModelAndView editar(@ModelAttribute("consulta") Consulta consulta,
+                               @RequestParam("medico.id") Long medicoId,
+                               @RequestParam("paciente.id") Long pacienteId) {
+        Medico medico = medicoRepositorio.medicoFind(medicoId);
+        Paciente paciente = pacienteRepositorio.pacienteFind(pacienteId);
+
+        consulta.setMedico(medico);
+        consulta.setPaciente(paciente);
+
+        Consulta consultaOriginal = consultaRepositorio.consultaFind(consulta.getId());
+        consulta.setData(consultaOriginal.getData());
+
         consultaRepositorio.update(consulta);
         return listar();
     }

@@ -25,9 +25,7 @@
 
         <div class="mb-3">
             <label for="medico" class="form-label">Médico:</label>
-            <input type="hidden" th:field="*{medico.id}" required class="form-control">
-            <input type="text" th:if="${consulta.id != null}" th:value="${consulta.medico.nome}" class="form-control" readonly>
-            <select th:if="${consulta.id == null}" class="form-select" required>
+            <select class="form-select" id="medico" name="medico.id" required th:disabled="${consulta.id != null}">
                 <option value="">Selecione um Médico</option>
                 <option th:each="medico : ${medicos}" th:value="${medico.id}" th:text="${medico.nome}"></option>
             </select>
@@ -35,13 +33,15 @@
 
         <div class="mb-3">
             <label for="paciente" class="form-label">Paciente:</label>
-            <input type="hidden" th:if="${consulta.id != null}" th:field="*{paciente.id}" required class="form-control">
-            <input type="text" th:if="${consulta.id != null}" th:value="${consulta.paciente.nome}" class="form-control" readonly>
-            <select th:if="${consulta.id == null}" class="form-select" required>
+            <select class="form-select" id="paciente" name="paciente.id" required th:disabled="${consulta.id != null}">
                 <option value="">Selecione um Paciente</option>
                 <option th:each="paciente : ${pacientes}" th:value="${paciente.id}" th:text="${paciente.nome}"></option>
             </select>
         </div>
+        <input type="hidden" th:field="*{id}" class="form-control">
+        <input type="hidden" th:field="*{medico.id}" class="form-control">
+        <input type="hidden" th:field="*{paciente.id}" class="form-control">
+        <input type="hidden" th:field="*{data}" class="form-control" />
 
         <button type="submit" class="btn btn-primary">Cadastrar</button>
         <div class="text-center">
