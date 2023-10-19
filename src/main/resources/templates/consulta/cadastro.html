@@ -1,46 +1,102 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Consulta</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<html th:replace="~{fragments/layout :: layout(~{::head},~{::main})}">
+<head th:replace="~{fragments/head :: head(~{::title}, ~{})}">
+    <title>Cadastrar Consulta</title>
 </head>
 <body>
-<header th:replace="fragments/header.html"></header>
+<main>
 <div class="container">
     <h1 class="my-4">Cadastro de Consulta</h1>
 
     <form th:action="${consulta.id == null ? '/consulta/salvar' : '/consulta/update'}" th:object="${consulta}" method="post">
         <div class="mb-3">
-            <label for="descricao" class="form-label">Descrição da Consulta:</label>
+            <label  class="form-label">Descrição da Consulta:</label>
             <input type="text" th:field="*{descricao}" class="form-control" required/>
         </div>
 
         <div class="mb-3">
-            <label for="valor" class="form-label">Valor:</label>
+            <label  class="form-label">Valor:</label>
             <input type="number" th:field="*{valor}" class="form-control" required/>
         </div>
 
         <div class="mb-3">
             <label for="medico" class="form-label">Médico:</label>
             <select class="form-select" id="medico" name="medico.id" required th:disabled="${consulta.id != null}">
-                <option value="">Selecione um Médico</option>
-                <option th:each="medico : ${medicos}" th:value="${medico.id}" th:text="${medico.nome}"></option>
+                <<option id="input_medico" value="" text="" selected>Selecione um Medico</option>
+                <option th:each="medico : ${medicos}" th:text="${medico.nome}"></option>
             </select>
+            <button id="open-modal"  onclick="abrirModalMed()">Pesquisar</button>
         </div>
 
+        <div id="fadeMed" class="hide"></div>
+        <div id="modalMed" class="hide">
+            <div class="modal-header">
+                <h2>Medicos</h2>
+                <button id="close-modal" onclick="fecharModalMed()">Fechar</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="campoPesquisaMedico" placeholder="Digite para pesquisar...">
+                <table class="table" id="tabelaMedicos">
+                    <thead>
+                    <tr>
+                        <th>CRM</th>
+                        <th>Nome</th>
+                        <div class="text-center">
+                            <a th:href="@{/medico/cadastrar}" class="btn btn-success">+</a>
+                        </div>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:attr=" onclick=|capturaMedico('${medico.id}', '${medico.nome}' )|"th:each="medico : ${medicos}" >
+                        <td th:text="${medico.crm}"></td>
+                        <td th:text="${medico.nome}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="mb-3">
             <label for="paciente" class="form-label">Paciente:</label>
             <select class="form-select" id="paciente" name="paciente.id" required th:disabled="${consulta.id != null}">
-                <option value="">Selecione um Paciente</option>
-                <option th:each="paciente : ${pacientes}" th:value="${paciente.id}" th:text="${paciente.nome}"></option>
+                <option id="input_paciente" value="" text="" selected>Selecione um Paciente</option>
+                <option th:each="paciente : ${pacientes}"  th:text="${paciente.nome}"></option>
             </select>
+            <button id="open-modal"  onclick="abrirModalPac()">Pesquisar</button>
         </div>
+        <div id="fadePac" class="hide"></div>
+    <div id="modalPac" class="hide">
+        <div class="modal-header">
+            <h2>Pacientes</h2>
+            <button id="close-modal" onclick="fecharModalPac()">Fechar</button>
+        </div>
+        <div class="modal-body">
+            <input type="text" id="campoPesquisa" placeholder="Digite para pesquisar">
+            <table class="table" id="tabelaPacientes">
+                <thead>
+                <tr>
+                    <th>CPF</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th colspan="2">Ação</th>
+                    <div class="text-center">
+                        <a th:href="@{/paciente/cadastrar}" class="btn btn-success">+</a>
+                    </div>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:attr=" onclick=|capturaPaciente('${paciente.id}', '${paciente.nome}' )|"th:each="paciente : ${pacientes}">
+                    <td th:text="${paciente.cpf}"></td>
+                    <td th:text="${paciente.nome}"></td>
+                    <td th:text="${paciente.telefone}"></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
         <input type="hidden" th:field="*{id}" class="form-control">
-        <input type="hidden" th:field="*{medico.id}" class="form-control">
-        <input type="hidden" th:field="*{paciente.id}" class="form-control">
+        <input type="hidden" id="id_medico" th:field="*{medico.id}" class="form-control">
+        <input type="hidden" id="id_paciente" th:field="*{paciente.id}" class="form-control">
         <input type="hidden" th:field="*{data}" class="form-control" />
 
         <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -49,7 +105,7 @@
         </div>
     </form>
 </div>
-
-<footer th:replace="fragments/footer.html"></footer>
+    <footer></footer>
+</main>
 </body>
 </html>
