@@ -7,9 +7,11 @@ import com.example.AulaJPA1.model.repositories.ConsultaRepositorio;
 import com.example.AulaJPA1.model.repositories.MedicoRepositorio;
 import com.example.AulaJPA1.model.repositories.PacienteRepositorio;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -76,16 +78,21 @@ public class ConsultaControl {
     }
 
     @PostMapping("/salvar")
-    public ModelAndView salvar(@ModelAttribute("consulta") Consulta consulta,
+    public ModelAndView salvar(@Valid @ModelAttribute("consulta") Consulta consulta,
                                @RequestParam("medico.id") Long medicoId,
-                               @RequestParam("paciente.id") Long pacienteId) {
-        Medico medico = medicoRepositorio.medicoFind(medicoId);
-        Paciente paciente = pacienteRepositorio.pacienteFind(pacienteId);
+                               @RequestParam("paciente.id") Long pacienteId,
+                                BindingResult result) {
+        if (result.hasErrors()) {
+            return new  ModelAndView("consulta/cadastro");
+        }
+            Medico medico = medicoRepositorio.medicoFind(medicoId);
+            Paciente paciente = pacienteRepositorio.pacienteFind(pacienteId);
 
-        consulta.setMedico(medico);
-        consulta.setPaciente(paciente);
+            consulta.setMedico(medico);
+            consulta.setPaciente(paciente);
 
-        consultaRepositorio.save(consulta);
+            consultaRepositorio.save(consulta);
+
 
         return new ModelAndView("redirect:/consulta/listar");
     }

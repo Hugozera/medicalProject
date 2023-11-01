@@ -1,11 +1,14 @@
 package com.example.AulaJPA1.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
 @Entity
-public class Paciente extends Pessoa {
+public class Paciente extends Pessoa  {
 
     @Column(name = "cpf")
     private String cpf;

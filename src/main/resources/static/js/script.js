@@ -73,3 +73,29 @@ document.getElementById('campoPesquisaMedico').addEventListener('input', functio
     });
 });
 configurarEventos();
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Função para aplicar a máscara e permitir apenas números
+    function applyMask(input) {
+        input.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    }
+
+    // Chamando a função para o campo de valor
+    var valorInput = document.querySelector('input[name="valor"]');
+    applyMask(valorInput);
+});
+
+
+    // function enviarFormulario() {
+    //     var cpfInput = document.getElementById('cpf');
+    //     var crmInput = document.getElementById('crm');
+    //     if (cpfInput.value.trim() === '') {
+    //         cpfInput.value = '0';
+    //     }
+    //     else if (crmInput.value.trim() === '') {
+    //         crmInput.value = '0';
+    //     }
+    //     document.querySelector('form').submit();
+    // }

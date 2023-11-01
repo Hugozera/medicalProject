@@ -4,11 +4,15 @@ package com.example.AulaJPA1.control;
 import com.example.AulaJPA1.model.entity.Paciente;
 import com.example.AulaJPA1.model.repositories.PacienteRepositorio;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.naming.Binding;
 import java.util.List;
 
 @Transactional
@@ -36,7 +40,9 @@ public class PacienteControl {
     }
 
     @PostMapping("/salvar")
-    public ModelAndView salvar(Paciente paciente) {
+    public ModelAndView salvar(@Valid Paciente paciente, BindingResult result) {
+        if (result.hasErrors())
+            return new ModelAndView("/paciente/cadastro");
         pacienteRepositorio.save(paciente);
         return new ModelAndView("redirect:/paciente/listar");
     }

@@ -11,19 +11,18 @@
         <div class="mb-3">
             <label  class="form-label">Descrição da Consulta:</label>
             <input type="text" th:field="*{descricao}" class="form-control" required/>
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></label>
         </div>
 
         <div class="mb-3">
             <label  class="form-label">Valor:</label>
             <input type="number" th:field="*{valor}" class="form-control" required/>
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></label>
         </div>
 
         <div class="mb-3">
             <label for="medico" class="form-label">Médico:</label>
-            <select class="form-select" id="medico" name="medico.id" required th:disabled="${consulta.id != null}">
-                <<option id="input_medico" value="" text="" selected>Selecione um Medico</option>
-                <option th:each="medico : ${medicos}" th:text="${medico.nome}"></option>
-            </select>
+                <option id="input_medico" value="" text="" selected>Selecione um Medico</option>
             <button id="open-modal"  onclick="abrirModalMed()">Pesquisar</button>
         </div>
 
@@ -31,10 +30,10 @@
         <div id="modalMed" class="hide">
             <div class="modal-header">
                 <h2>Medicos</h2>
-                <button id="close-modal" onclick="fecharModalMed()">Fechar</button>
+                <button id="close-modal" onclick="fecharModalMed()">X</button>
             </div>
             <div class="modal-body">
-                <input type="text" id="campoPesquisaMedico" placeholder="Digite para pesquisar...">
+
                 <table class="table" id="tabelaMedicos">
                     <thead>
                     <tr>
@@ -56,17 +55,15 @@
         </div>
         <div class="mb-3">
             <label for="paciente" class="form-label">Paciente:</label>
-            <select class="form-select" id="paciente" name="paciente.id" required th:disabled="${consulta.id != null}">
-                <option id="input_paciente" value="" text="" selected>Selecione um Paciente</option>
-                <option th:each="paciente : ${pacientes}"  th:text="${paciente.nome}"></option>
-            </select>
+                <option id="input_paciente" value=""  selected>Selecione um Paciente</option>
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('paciente')}" th:errors="*{paciente}"></label>
             <button id="open-modal"  onclick="abrirModalPac()">Pesquisar</button>
         </div>
         <div id="fadePac" class="hide"></div>
     <div id="modalPac" class="hide">
         <div class="modal-header">
             <h2>Pacientes</h2>
-            <button id="close-modal" onclick="fecharModalPac()">Fechar</button>
+            <button id="close-modal" onclick="fecharModalPac()">X</button>
         </div>
         <div class="modal-body">
             <input type="text" id="campoPesquisa" placeholder="Digite para pesquisar">
@@ -89,7 +86,6 @@
                     <td th:text="${paciente.nome}"></td>
                     <td th:text="${paciente.telefone}"></td>
                 </tr>
-
                 </tbody>
             </table>
         </div>
@@ -102,6 +98,9 @@
         <button type="submit" class="btn btn-primary">Cadastrar</button>
         <div class="text-center">
             <a th:href="@{/consulta/listar}" class="btn btn-secondary">Voltar para a Lista</a>
+        </div>
+        <div th:each="erro : ${#fields.detailedErrors()}">
+            <span th:text="${erro.fieldName}+' '+${erro.message}"></span>
         </div>
     </form>
 </div>

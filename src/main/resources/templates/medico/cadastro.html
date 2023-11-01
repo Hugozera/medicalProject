@@ -7,24 +7,37 @@
 <div class="container">
     <h1 class="my-4">Cadastro de Médico</h1>
 
-    <form th:action="${medico.id == null } ? @{/medico/salvar} : @{/medico/update}" th:object="${medico}" method="post">
+    <form novalidate th:action="${medico.id == null } ? @{/medico/salvar} : @{/medico/update}" th:object="${medico}" method="post">
         <div class="mb-3">
-            <label for="crm" class="form-label">CRM:</label>
-            <input type="text" th:field="*{crm}" required class="form-control">
+            <label for="cpf" class="form-label">CPF:</label>
+            <input onkeypress="$(this).mask('000.000.000-00');" type="text" id="cpf" th:field="*{cpf}" class="form-control cpf" required/>
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></label>
+        </div>
+        <div class="mb-3">
+            <label for="crm"  class="form-label">CRM:</label>
+            <input type="text"  id="crm" th:field="*{crm}" required class="form-control" name="crm">
+            <input  type="hidden" id="cpf" name="cpf" class="form-control">
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('crm')}" th:errors="*{crm}"></label>
         </div>
             <input type="hidden" th:field="*{id}" required class="form-control">
+
         <div class="mb-3">
             <label for="nome" class="form-label">Nome:</label>
             <input type="text" th:field="*{nome}" required class="form-control">
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></label>
         </div>
         <div class="mb-3">
             <label for="telefone" class="form-label">Telefone:</label>
-            <input type="text" th:field="*{telefone}" required class="form-control">
+            <input onkeypress="$(this).mask('(00)0 0000-00009')" type="text"  id="telefone" th:field="*{telefone}" required class="form-control" name="telefone">
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></label>
         </div>
 
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <button type="submit" class="btn btn-primary" onclick="enviarFormulario()">Cadastrar</button>
         <div class="text-center">
             <a th:href="@{/medico/listar}" class="btn btn-secondary">Voltar para a Lista</a>
+        </div>
+        <div th:each="erro : ${#fields.detailedErrors()}">
+            <span th:text="${erro.fieldName}+' '+${erro.message}"></span>
         </div>
     </form>
 </div>

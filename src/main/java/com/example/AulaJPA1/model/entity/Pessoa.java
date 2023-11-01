@@ -1,19 +1,27 @@
 package com.example.AulaJPA1.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tbpessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Pessoa {
+public abstract class Pessoa implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String nome;
+    @NotBlank
     private String telefone;
+
+    @NotBlank
     private String cpf;
-    private String crm;
 
     public String getCpf() {
         return cpf;
@@ -23,13 +31,8 @@ public class Pessoa {
         this.cpf = cpf;
     }
 
-    public String getCrm() {
-        return crm;
-    }
 
-    public void setCrm(String crm) {
-        this.crm = crm;
-    }
+
 
     public Long getId() {
         return id;

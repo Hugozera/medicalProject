@@ -2,6 +2,7 @@
 <head th:replace="~{fragments/head :: head(~{::title}, ~{})}">
     <title>Cadastrar Paciente</title>
 </head>
+
 <body>
 <main>
 <div class="container">
@@ -13,24 +14,32 @@
         <div class="mb-3">
             <label for="nome" class="form-label">Nome:</label>
             <input type="text" th:field="*{nome}" required class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="cpf" class="form-label">CPF:</label>
-            <input type="text" th:field="*{cpf}" required class="form-control">
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></label>
         </div>
 
         <div class="mb-3">
             <label for="telefone" class="form-label">Telefone:</label>
-            <input type="text" th:field="*{telefone}" required class="form-control">
+            <input onkeypress="$(this).mask('(00)0 0000-00009')" type="text" id="telefone" th:field="*{telefone}" class="form-control telefone" required/>
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></label>
         </div>
 
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <div class="mb-3">
+            <label for="cpf" class="form-label">CPF:</label>
+            <input onkeypress="$(this).mask('000.000.000-00');" type="text" id="cpf" th:field="*{cpf}" class="form-control cpf" required/>
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" onclick="enviarFormulario()">Cadastrar</button>
         <div class="text-center">
             <a th:href="@{/paciente/listar}" class="btn btn-secondary">Voltar para a Lista</a>
+        </div>
+        <div th:each="erro : ${#fields.detailedErrors()}">
+            <span th:text="${erro.fieldName}+' '+${erro.message}"></span>
         </div>
     </form>
 </div>
 </main>
+
 </body>
+
 </html>

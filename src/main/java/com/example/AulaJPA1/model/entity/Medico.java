@@ -1,6 +1,8 @@
 package com.example.AulaJPA1.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -9,8 +11,7 @@ import java.util.List;
 public class Medico  extends Pessoa{
 
 
-
-    @Column(name = "crm")
+@NotBlank
     private String crm;
 
     @OneToMany(mappedBy = "medico")
@@ -24,13 +25,11 @@ public class Medico  extends Pessoa{
         this.consultas = consultas;
     }
 
-    @Override
     public String getCrm() {
-        return super.getCrm();
+        return crm;
     }
 
-    @Override
     public void setCrm(String crm) {
-        super.setCrm(crm);
+        this.crm = crm;
     }
 }

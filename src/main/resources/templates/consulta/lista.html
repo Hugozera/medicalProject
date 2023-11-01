@@ -23,25 +23,18 @@
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Data de Emissão</th>
             <th th:if="${view != 'medico'}">Médico</th>
-            <th th:if="${view != 'paciente'}" colspan="4">Paciente</th>
+            <th th:if="${view != 'paciente'}" colspan="2">Paciente</th>
             <th colspan="2">Ação</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="consulta : ${consultas}" class="consulta-row" th:data-detalhe="${consulta.detalhe}">
-            <td th:text="${consulta.id}"></td>
             <td th:text="${#temporals.format(consulta.data, 'dd/MMM/yyyy HH:mm')}"></td>
             <td th:if="${view != 'medico'} "th:text="${consulta.getMedico().getNome()}"></td>
             <td th:if="${view != 'paciente'}" th:text="${consulta.getPaciente().getNome()}"></td>
-            <td>
-                <span class="consulta-dado" th:text="${consulta.descricao}"></span>
-            </td>
-            <td>
-                <span class="consulta-dado" th:text="${consulta.valor}"></span>
-            </td>
+
             <td><a th:href="@{/consulta/editar/{id}(id=${consulta.id})}" class="btn btn-primary">Editar</a></td>
             <td><a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"
                    th:href="@{/consulta/remover/{id}(id=${consulta.id})}" class="btn btn-danger">Excluir</a></td>
@@ -60,6 +53,6 @@
 
 
 </main>
-<footer></footer>
+
 </body>
 </html>
