@@ -27,6 +27,7 @@
                             <li><a class="dropdown-item" href="/medico/cadastrar">Cadastrar Novo</a></li>
                             <li><a class="dropdown-item" href="/medico/listar">Listar</a></li>
                         </ul>
+
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownConsulta" role="button"
@@ -39,7 +40,12 @@
                         </ul>
                     </li>
                 </ul>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" value="Sair" class="btn btn-dark">Sair</button>
+                    </form>
+
             </div>
+
         </div>
     </nav>
 </header>

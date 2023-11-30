@@ -9,9 +9,9 @@
 
     <form th:action="${consulta.id == null ? '/consulta/salvar' : '/consulta/update'}" th:object="${consulta}" method="post">
         <div class="mb-3">
-            <label  class="form-label">Descrição da Consulta:</label>
-            <input type="text" th:field="*{descricao}" class="form-control" required/>
-            <label class="invalid-feedback" th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></label>
+            <label class="form-label">Valor da Consulta:</label>
+            <input type="number" th:field="*{valor}" class="form-control" required/>
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></label>
         </div>
 
         <div class="mb-3">
@@ -24,6 +24,7 @@
             <label for="medico" class="form-label">Médico:</label>
                 <option id="input_medico" value="" text="" selected>Selecione um Medico</option>
             <button id="open-modal"  onclick="abrirModalMed()">Pesquisar</button>
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('medico')}" th:errors="*{medico}"></label>
         </div>
 
         <div id="fadeMed" class="hide"></div>

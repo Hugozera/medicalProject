@@ -1,6 +1,10 @@
 package com.example.AulaJPA1.model.entity;
 
+import com.example.AulaJPA1.model.validation.grupos.Insert;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -11,7 +15,11 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    private String descricao, detalhe;
+    @NotBlank(message = "Digite a observação da consulta", groups = Insert.class)
+    private String descricao;
+    private String detalhe;
+    @NotNull(message = "Digite o valor da consulta", groups = Insert.class)
+    @DecimalMin(value = "0.0", inclusive = false, message = "O valor deve ser maior que zero.")
     private double valor;
     @DateTimeFormat
     private LocalDateTime data;

@@ -94,3 +94,47 @@ footer {
     text-align: center;
     z-index: -9;
 }
+
+/* Estilos específicos para a página de login */
+.login-container {
+    display: flex;
+    background: url('static/imagens/med.jpg') no-repeat left center;
+    background-size: cover;
+    width: 70vw; /* Ajuste conforme necessário */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.login-main {
+    flex: 1;
+    padding: 20px;
+}
+
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.login-form-group {
+    margin-bottom: 20px;
+}
+
+.login-label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.login-submit-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

@@ -6,12 +6,15 @@ import com.example.AulaJPA1.model.entity.Paciente;
 import com.example.AulaJPA1.model.repositories.ConsultaRepositorio;
 import com.example.AulaJPA1.model.repositories.MedicoRepositorio;
 import com.example.AulaJPA1.model.repositories.PacienteRepositorio;
+import com.example.AulaJPA1.model.validation.grupos.Insert;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -76,26 +79,20 @@ public class ConsultaControl {
         modelAndView.addObject("valorTotal", valorTotal);
         return modelAndView;
     }
-
     @PostMapping("/salvar")
     public ModelAndView salvar(@Valid @ModelAttribute("consulta") Consulta consulta,
-                               @RequestParam("medico.id") Long medicoId,
-                               @RequestParam("paciente.id") Long pacienteId,
                                 BindingResult result) {
         if (result.hasErrors()) {
             return new  ModelAndView("consulta/cadastro");
         }
-            Medico medico = medicoRepositorio.medicoFind(medicoId);
-            Paciente paciente = pacienteRepositorio.pacienteFind(pacienteId);
-
+            Medico medico = medicoRepositorio.medicoFind(consulta.getMedico().getId());
+            Paciente paciente = pacienteRepositorio.pacienteFind(consulta.getPaciente().getId());
             consulta.setMedico(medico);
             consulta.setPaciente(paciente);
-
             consultaRepositorio.save(consulta);
-
-
         return new ModelAndView("redirect:/consulta/listar");
     }
+
 
     @GetMapping("/editar/{id}")
     public ModelAndView editar(@PathVariable("id") Long id) {
